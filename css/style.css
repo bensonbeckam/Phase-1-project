@@ -155,7 +155,7 @@ body::before {
     background-color: rgb(255, 255, 255, 0.4);
 }
 
-.message-img {
+.section-message img{
     height: 180px;
     width: fit-content;
 }
