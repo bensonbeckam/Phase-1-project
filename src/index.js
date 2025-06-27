@@ -31,6 +31,11 @@ cityInput.addEventListener('keydown', (event) =>{
     }
 })
 
+function getWeatherIcon(id){
+    console.log(id)
+    
+}
+
 async function getFetchData(endPoint, city) {
     const apiUrl =`https://api.openweathermap.org/data/2.5/${endPoint}?q=${city}&appid=${apiKey}&units=metric`
 
@@ -42,7 +47,7 @@ async function getFetchData(endPoint, city) {
 async function updateWeatherInfo(city) {
     const weatherData =await getFetchData('weather', city)
 
-    if (weatherData.cod != 200){
+    if (weatherData.cod !== 200){
         showDisplaySection(notFoundSection)
         return
     }
@@ -51,8 +56,8 @@ async function updateWeatherInfo(city) {
     const {
         name: country,
         main: { temp, humidity},
-        weather: [{ id, main}],
-        wind: {speed}
+        weather: [{ id, main}={}],
+        wind: {speed},
     } =weatherData
 
     countryTxt.textContent = country
@@ -61,7 +66,7 @@ async function updateWeatherInfo(city) {
     humidityValuTxt.textContent = humidity + '%'
     windValueTxt.textContent = speed + 'M/s'
 
-    weatherSummaryImg.src=`css/weather/${getWeatherIcon(id)}`
+    weatherSummaryImg.src = `../assets/weather/${getWeatherIcon(id)}`
 
     showDisplaySection(weatherInfoSection)
 }
