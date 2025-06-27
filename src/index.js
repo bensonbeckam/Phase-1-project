@@ -31,10 +31,7 @@ cityInput.addEventListener('keydown', (event) =>{
     }
 })
 
-function getWeatherIcon(id){
-    console.log(id)
-    
-}
+
 
 async function getFetchData(endPoint, city) {
     const apiUrl =`https://api.openweathermap.org/data/2.5/${endPoint}?q=${city}&appid=${apiKey}&units=metric`
@@ -42,6 +39,16 @@ async function getFetchData(endPoint, city) {
     const response = await fetch(apiUrl)
 
     return response.json()
+}
+
+function getWeatherIcon(id){
+    if (id <= 232) return 'thunderstorm.svg'
+    if (id <= 321 ) return 'drizzle.svg'
+    if (id <= 531 ) return 'rain.svg'
+    if (id <= 622 ) return 'snow.svg'
+    if (id <= 781 ) return 'atmosphere.svg'
+    if (id <= 800 ) return 'clear.svg'
+    else return 'clouds.svg'
 }
 
 async function updateWeatherInfo(city) {
