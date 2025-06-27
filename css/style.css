@@ -132,9 +132,11 @@ body::before {
 
 .forecast-item-container {
     display: flex;
-    gap: 20px;
-    padding-bottom: 12px;
-    overflow: scroll;
+    gap: 10px;
+    padding-bottom: 30px;
+    margin-top: 20px;
+    justify-content: space-between;
+    /* border: solid; */
 }
 
 .forecast-item-container::-webkit-scrollbar {
@@ -152,13 +154,14 @@ body::before {
 
 .forecast-item {
     background: rgb(255, 255, 255, 0.1);
-    min-width: 70px;
+    min-width: 90px;
     margin-top: 20px;
     gap: 6px;
     padding: 10px;
     align-items: center;
     border-radius: 10px;
     transition: 0.3s;
+    /* border: solid; */
 
 }
 
