@@ -99,7 +99,8 @@ async function updateForecastInfo(city){
     const timeTaken = '12:00:00'
     const todayDate = new Date().toISOString().split('T')[0]
 
-    forecastItemContainer.innerHTML =''
+
+    forecastItemContainer.innerHTML = ''
     forecastsData.list.forEach(forecastWeather => {
         if (forecastWeather.dt_txt.includes(timeTaken)&&
             !forecastWeather.dt_txt.includes(todayDate)){ 
@@ -108,22 +109,25 @@ async function updateForecastInfo(city){
     })
 }
 
-function updateForecastItems() {
-    const {
-        dt_txt: date,
-        weather: [{ id }],
-        main: {temp}
-    }= weatherData
+function updateForecastItems(weatherData){
+console.log(weatherData)
 
-    const foreCastItem = `
+const {
+    dt_txt: date,
+    weather: [{ id }],
+    main: {temp}
+} = weatherData
+
+
+const forecastItem =`
             <div class="forecast-item">
-                <div class="forecast-item-date regular-txt">27 Jun</div>
-                <img src="assets/weather/${getWeatherIcon(id)} alt="" class="forecast-item-img">
-                <div class="forecast-item-temp">${Math.round(temp)}°C</div>
+                <h5 class="forecast-item-date regular-txt">27 Jun</h5>
+                <img src="assets/weather/${getWeatherIcon(id)}" alt="" class="forecast-item-img">
+                <h5 class="forecast-item-temp">${Math.round(temp)} °C</h5>
             </div>
-    `
+` 
 
-    forecastItemContainer.insertAdjacentHTML('beforeend', foreCastItem)
+forecastItemContainer.insertAdjacentHTML('beforeend', forecastItem)
 }
 
 function showDisplaySection(section) {

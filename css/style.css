@@ -133,6 +133,21 @@ body::before {
 .forecast-item-container {
     display: flex;
     gap: 20px;
+    padding-bottom: 12px;
+    overflow: scroll;
+}
+
+.forecast-item-container::-webkit-scrollbar {
+    height: 8px;
+}
+
+.forecast-item-container::-webkit-scrollbar-track{
+    background: rgb(0, 0, 0, 0.04);
+    border-radius: 99px;
+}
+
+.forecast-item-container::-webkit-scrollbar-thumb {
+    background: rgb(0, 0, 0, 0.1);
 }
 
 .forecast-item {
