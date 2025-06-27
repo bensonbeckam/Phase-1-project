@@ -11,6 +11,7 @@ const conditionTxt =document.querySelector('.condition-txt')
 const humidityValuTxt =document.querySelector('.humidity-value')
 const windValueTxt =document.querySelector('.wind-speed-value')
 const weatherSummaryImg =document.querySelector('.weather-summary-img')
+const currentDateTxt =document.querySelector('.current-date-txt')
 
 const apiKey = '3679550d98adfc87181430b62457f5ac'
 
@@ -53,6 +54,14 @@ async function updateWeatherInfo(city) {
         weather: [{ id, main}],
         wind: {speed}
     } =weatherData
+
+    countryTxt.textContent = country
+    tempTxt.textContent = Math.round(temp) + '°C'
+    conditionTxt.textContent = main
+    humidityValuTxt.textContent = humidity + '%'
+    windValueTxt.textContent = speed + 'M/s'
+
+    weatherSummaryImg.src=`css/weather/${getWeatherIcon(id)}`
 
     showDisplaySection(weatherInfoSection)
 }
