@@ -13,6 +13,8 @@ const windValueTxt =document.querySelector('.wind-speed-value')
 const weatherSummaryImg =document.querySelector('.weather-summary-img')
 const currentDateTxt =document.querySelector('.current-date-txt')
 
+const forecastItemContainer =document.querySelector('.forecast-item-container')
+
 const apiKey = '3679550d98adfc87181430b62457f5ac'
 
 searchBtn.addEventListener('click', () => {
@@ -93,7 +95,35 @@ async function updateWeatherInfo(city) {
 
 async function updateForecastInfo(city){
     const forecastsData = await getFetchData('forecast', city)
-    console.log(forecastsData)
+
+    const timeTaken = '12:00:00'
+    const todayDate = new Date().toISOString().split('T')[0]
+
+    forecastItemContainer.innerHTML =''
+    forecastsData.list.forEach(forecastWeather => {
+        if (forecastWeather.dt_txt.includes(timeTaken)&&
+            !forecastWeather.dt_txt.includes(todayDate)){ 
+                updateForecastItems(forecastWeather)
+        }
+    })
+}
+
+function updateForecastItems() {
+    const {
+        dt_txt: date,
+        weather: [{ id }],
+        main: {temp}
+    }= weatherData
+
+    const foreCastItem = `
+            <div class="forecast-item">
+                <div class="forecast-item-date regular-txt">27 Jun</div>
+                <img src="assets/weather/${getWeatherIcon(id)} alt="" class="forecast-item-img">
+                <div class="forecast-item-temp">${Math.round(temp)}°C</div>
+            </div>
+    `
+
+    forecastItemContainer.insertAdjacentHTML('beforeend', foreCastItem)
 }
 
 function showDisplaySection(section) {
