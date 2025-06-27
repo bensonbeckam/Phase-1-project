@@ -51,6 +51,17 @@ function getWeatherIcon(id){
     else return 'clouds.svg'
 }
 
+function getCurrentDate(){
+    const currentDate = new Date()
+    const options ={
+        weekday: 'short',
+        day: '2-digit',
+        month: 'short'
+    }
+
+    return currentDate.toLocaleDateString('en-GB', options)
+}
+
 async function updateWeatherInfo(city) {
     const weatherData =await getFetchData('weather', city)
 
@@ -58,7 +69,6 @@ async function updateWeatherInfo(city) {
         showDisplaySection(notFoundSection)
         return
     }
-    console.log(weatherData)
 
     const {
         name: country,
@@ -73,9 +83,17 @@ async function updateWeatherInfo(city) {
     humidityValuTxt.textContent = humidity + '%'
     windValueTxt.textContent = speed + 'M/s'
 
+    currentDateTxt.textContent =getCurrentDate()
+
     weatherSummaryImg.src = `../assets/weather/${getWeatherIcon(id)}`
 
+    await updateForecastInfo(city)
     showDisplaySection(weatherInfoSection)
+}
+
+async function updateForecastInfo(city){
+    const forecastsData = await getFetchData('forecast', city)
+    console.log(forecastsData)
 }
 
 function showDisplaySection(section) {
