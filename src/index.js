@@ -1,3 +1,4 @@
+//DOM element selectors
 const cityInput =document.querySelector('.city-input')
 const searchBtn =document.querySelector('.search-btn')
 
@@ -15,8 +16,11 @@ const currentDateTxt =document.querySelector('.current-date-txt')
 
 const forecastItemContainer =document.querySelector('.forecast-item-container')
 
+//API key
 const apiKey = '3679550d98adfc87181430b62457f5ac'
 
+
+//Search Button Click Event
 searchBtn.addEventListener('click', () => {
     if (cityInput.value.trim() != ''){
             updateWeatherInfo(cityInput.value)
@@ -25,6 +29,7 @@ searchBtn.addEventListener('click', () => {
     }
 })
 
+//Enter key search Event
 cityInput.addEventListener('keydown', (event) =>{
     if (event.key == 'Enter' && cityInput.value.trim() != ''){
           updateWeatherInfo(cityInput.value)
@@ -34,7 +39,7 @@ cityInput.addEventListener('keydown', (event) =>{
 })
 
 
-
+//fetch weather data function
 async function getFetchData(endPoint, city) {
     const apiUrl =`https://api.openweathermap.org/data/2.5/${endPoint}?q=${city}&appid=${apiKey}&units=metric`
 
@@ -43,6 +48,7 @@ async function getFetchData(endPoint, city) {
     return response.json()
 }
 
+//weather icon mapping
 function getWeatherIcon(id){
     if (id <= 232) return 'thunderstorm.svg'
     if (id <= 321 ) return 'drizzle.svg'
@@ -53,6 +59,7 @@ function getWeatherIcon(id){
     else return 'clouds.svg'
 }
 
+//get current data function
 function getCurrentDate(){
     const currentDate = new Date()
     const options ={
@@ -64,14 +71,18 @@ function getCurrentDate(){
     return currentDate.toLocaleDateString('en-GB', options)
 }
 
+//update weather info
 async function updateWeatherInfo(city) {
     const weatherData =await getFetchData('weather', city)
 
+
+//if city not found show error
     if (weatherData.cod !== 200){
         showDisplaySection(notFoundSection)
         return
     }
 
+//destructure weather data
     const {
         name: country,
         main: { temp, humidity},
@@ -79,6 +90,8 @@ async function updateWeatherInfo(city) {
         wind: {speed},
     } =weatherData
 
+
+ //Update UI with weather data   
     countryTxt.textContent = country
     tempTxt.textContent = Math.round(temp) + '°C'
     conditionTxt.textContent = main
@@ -89,6 +102,7 @@ async function updateWeatherInfo(city) {
 
     weatherSummaryImg.src = `../assets/weather/${getWeatherIcon(id)}`
 
+//fetch forecast
     await updateForecastInfo(city)
     showDisplaySection(weatherInfoSection)
 }
@@ -99,7 +113,7 @@ async function updateForecastInfo(city){
     const timeTaken = '12:00:00'
     const todayDate = new Date().toISOString().split('T')[0]
 
-
+//clear previous forecast items
     forecastItemContainer.innerHTML = ''
     forecastsData.list.forEach(forecastWeather => {
         if (forecastWeather.dt_txt.includes(timeTaken)&&
@@ -109,8 +123,8 @@ async function updateForecastInfo(city){
     })
 }
 
+//display forecast for current time
 function updateForecastItems(weatherData){
-console.log(weatherData)
 
 const {
     dt_txt: date,
@@ -127,6 +141,7 @@ const dateOption = {
 const  dateResult = dateTaken.toLocaleDateString('en-US', dateOption)
 
 
+//build forecast item HTML
 const forecastItem =`
             <div class="forecast-item">
                 <h5 class="forecast-item-date regular-txt">${dateResult}</h5>
@@ -138,6 +153,7 @@ const forecastItem =`
 forecastItemContainer.insertAdjacentHTML('beforeend', forecastItem)
 }
 
+//show one section at a time
 function showDisplaySection(section) {
     [weatherInfoSection, searchCitySection, notFoundSection]
     .forEach(section => section.style.display ='none')
